@@ -1,0 +1,31 @@
+@import '~antd/dist/antd.css';
+
+*{
+  margin: 0px;
+  padding: 0px;
+}
+.App {
+  text-align: center;
+}
+
+::-webkit-scrollbar {
+  width:4px;
+  height:4px;
+  position:absolute;
+}
+::-webkit-scrollbar-thumb {
+  background-color:#1890ff;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  box-shadow:  2px 2px #00000071;
+  -webkit-box-shadow: 0 2px 2px #00000071;
+  -moz-box-shadow: 0 2px 2px #00000071;
+  background-color:#22acec;
+  /* background-color: #1178d7; */
+}
+::-webkit-scrollbar-track {
+  margin-top: 3px;;
+  background-color:#ddd;
+  border-radius: 4px;
+}
