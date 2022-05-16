@@ -66,8 +66,6 @@ export default function Home() {
 
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
-
-
     window.onresize = () => {
       // console.log("resize")
       myChart.resize()
@@ -117,7 +115,7 @@ export default function Home() {
           </Card>
         </Col>
         <Col span={8}>
-          <Card title="点赞前六" bordered={false}>
+          <Card title="最多点赞" bordered={false}>
             <List
               size="small"
               // bordered

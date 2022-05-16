@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Table, Space, Button, Modal, Tree } from 'antd';
 import { UnorderedListOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import _ from 'lodash'
 
 const { confirm } = Modal
 
@@ -13,6 +14,8 @@ export default function RoleList() {
   const [currentId, setCurrentId] = useState(0)
   const [loading, setLoading] = useState(true)
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const {roleId} = JSON.parse(localStorage.getItem('token'))
 
   useEffect(() => {
     axios("/roles").then(res => {
@@ -46,9 +49,22 @@ export default function RoleList() {
   // 删除角色
   const delRole = (item) => {
     // 使用json-server前后端都要删除数据，保证刷新后数据不变
-    console.log("delRole:", item)
+    // console.log("delRole:", item)
+    setDataSource(dataSource.filter(data => data.id !== item.id))
+    axios.delete(`/roles/${item.id}`)
   }
 
+  // 是否有删除权限
+  const checkRole = (item, right)=>{
+    // console.log(item.rights)
+    if(_.indexOf(item.rights,right) < 0) return true
+    else {
+      if (roleId!==1 && item.id === 1) return true  // 下级不可操作上级
+      if (roleId===3 && item.id !== 3) return true 
+    }
+    
+    // return _.indexOf(item.rights,right) < 0 ? true: false
+  }
   const roleColumns = [
     {
       title: 'ID',
@@ -69,13 +85,14 @@ export default function RoleList() {
       render: (item) => {
         return (
           <Space size="middle">
-            <Button danger shape="circle" icon={<DeleteOutlined />} onClick={() => confirmMethod(item)} />
+            <Button danger shape="circle" disabled={checkRole(item,"/right-manage/role/delete")} icon={<DeleteOutlined />} onClick={() => confirmMethod(item)} />
             <Button type="primary" shape="circle" icon={<UnorderedListOutlined />}
               onClick={() => {
                 setIsModalVisible(true)
                 setcurrentRights(item.rights)
                 setCurrentId(item.id)
               }}
+              disabled={checkRole(item,"/right-manage/role/update")}
             />
           </Space>
         )
@@ -98,9 +115,9 @@ export default function RoleList() {
       return item
     }))
     //修改后端数据
-    // axios.patch(`/roles/${currentId}`, {
-    //   rights: currentRights
-    // })
+    axios.patch(`/roles/${currentId}`, {
+      rights: currentRights
+    })
   }
 
   const handleCancel = () => {
@@ -121,7 +138,7 @@ export default function RoleList() {
         }}
       />
       <Modal title="权限分配" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}
-        okText="好的"
+        okText="确定"
         cancelText="取消"
       >
         <Tree

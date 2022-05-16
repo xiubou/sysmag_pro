@@ -69,7 +69,7 @@ export default function UserList() {
     item.pagepermisson = item.pagepermisson === 1 ? 0 : 1
     setDataSource([...dataSource])
 
-    //修改后台传入数据————模拟数据暂不修改
+    //修改后台传入数据
     if(item.grade === 1){
       axios.patch(`/rights/${item.id}`,{
           pagepermisson:item.pagepermisson
