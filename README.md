@@ -52,6 +52,12 @@ React、Antd组件库、Echarts、Redux、json-server模拟后台数据
 - 已发布（除查看详情外，只可操作下线）
 - 已下线（除查看详情外，只可操作删除）
 
+### PS-游客情况：
+
+路径使用`http://localhost:3000/#/news` 登录游客系统可浏览所有新闻改变 ‘浏览量’ 和 ‘点赞量’。
+
+
+
 
 
 # Getting Started with Create React App
