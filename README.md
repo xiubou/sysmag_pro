@@ -56,7 +56,31 @@ React、Antd组件库、Echarts、Redux、json-server模拟后台数据
 
 路径使用`http://localhost:3000/#/news` 登录游客系统可浏览所有新闻改变 ‘浏览量’ 和 ‘点赞量’。
 
-
+### cron测试与pro无关
+export const testTransToCron = (data) => {
+    console.log("testTransToCron:", data)
+    const {second, minute, hour, minutefreq, hourfreq, scheduleType, week} = data
+    const m = parseInt(minutefreq) !== 0 ? `${minute}/${minutefreq}` : minute
+    const h = parseInt(hourfreq) !== 0 ? `${hour}/${hourfreq}` : hour
+    let day = '*'
+    const month = '*'
+    let w = '*'
+    // if(scheduleType === "daily") w = "?"
+    // else w = week.join(",")
+    switch(scheduleType){
+        case "daily" : 
+            w = "?";
+            break;
+        case "weekly" :
+            w = week.join(",");
+            day = "?";
+            break;
+        default : w = "?"
+    }
+    const cron = [second,m,h,day,month,w].join(" ")
+    console.log("cron:",cron)
+    return cron
+}
 
 
 
