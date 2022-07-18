@@ -56,32 +56,147 @@ React、Antd组件库、Echarts、Redux、json-server模拟后台数据
 
 路径使用`http://localhost:3000/#/news` 登录游客系统可浏览所有新闻改变 ‘浏览量’ 和 ‘点赞量’。
 
-### cron测试与pro无关
-export const testTransToCron = (data) => {
-    console.log("testTransToCron:", data)
-    const {second, minute, hour, minutefreq, hourfreq, scheduleType, week} = data
-    const m = parseInt(minutefreq) !== 0 ? `${minute}/${minutefreq}` : minute
-    const h = parseInt(hourfreq) !== 0 ? `${hour}/${hourfreq}` : hour
-    let day = '*'
-    const month = '*'
-    let w = '*'
-    // if(scheduleType === "daily") w = "?"
-    // else w = week.join(",")
-    switch(scheduleType){
-        case "daily" : 
-            w = "?";
-            break;
-        case "weekly" :
-            w = week.join(",");
-            day = "?";
-            break;
-        default : w = "?"
-    }
-    const cron = [second,m,h,day,month,w].join(" ")
-    console.log("cron:",cron)
-    return cron
-}
+### mindchart测试与pro无关
+export const treeData = [{
+    name: '阿巴阿巴',
+    label: {
+        backgroundColor: 'rgba(168, 0, 252, 1)',
+        borderRadius: [22, 11, 11, 6],
+        padding: [16, 16, 16, 16],
+    },
+    children: [
+        {
+            name: '产品1',
+            idss: 1,
+            collapsed: false,
+            label: {
+                backgroundColor: 'rgba(252, 25, 0, 1)',
+                borderRadius: [22, 11, 11, 6],
+                padding: [16, 16, 16, 16],
+            },
+            children: [
+                {
+                    name: '基线1',
+                    children: [
+                        { name: '基线1', value: 3938, collapsed: true, },
+                        { name: '基线2', value: 3812, collapsed: true, },
+                        { name: '基线3', value: 6714, collapsed: true, },
+                        { name: '基线4', value: 743, collapsed: true, },
+                    ],
+                },
+                {
+                    name: '基线2',
+                    children: [
+                        { name: '基线1', value: 3534, collapsed: true, },
+                        { name: '基线2', value: 5731, collapsed: true, },
+                        { name: '基线3', value: 7840, collapsed: true, },
+                        { name: '基线4', value: 5914, collapsed: true, },
+                        { name: '基线5', value: 3416, collapsed: true, },
+                    ],
+                },
+                {
+                    name: '基线3',
+                    children: [{ name: 'AspectRatioBanker', value: 7074 }],
+                },
+            ],
+        },
+        {
+            name: '产品2',
+            idss: 2,
+            collapsed: true,
+            label: {
+                backgroundColor: 'rgba(242, 144, 7, 1)',
+                borderRadius: [22, 11, 11, 6],
+                padding: [16, 16, 16, 16],
+            },
+            children: [
+                { name: '基线1', collapsed: true, },
+                { name: '基线1', value: 1759, collapsed: true, },
+                { name: '基线2', value: 2165, collapsed: true, },
+                { name: '基线3', value: 586, collapsed: true, },
+                { name: '基线4', value: 3331, collapsed: true, },
+                { name: '基线5', value: 772, collapsed: true, },
+                { name: '基线6', value: 3322, collapsed: true, },
+            ],
+        },
+        {
+            name: '产品3',
+            idss: 3,
+            collapsed: true,
+            label: {
+                backgroundColor: 'rgba(252, 248, 0, 1)',
+                borderRadius: [22, 11, 11, 6],
+                padding: [16, 16, 16, 16],
+            },
+            children: [
+                { name: '基线1', value: 8833, collapsed: true, },
+                { name: '基线2', value: 1732, collapsed: true, },
+                { name: '基线3', value: 3623, collapsed: true, },
+                { name: '基线4', value: 10066, collapsed: true, },
+            ],
+        },
+    ],
+}];
 
+export const treeOption = {
+    // 标题
+    title: {
+        text: '阿巴阿巴',
+    },
+    // 提示，滑过时展示数据
+    tooltip: {
+        trigger: 'item',
+        formatter: (params) => {
+            return (
+                [params.name] +
+                '<br/>基线数量 : ' +
+                [params.data.idss] +
+                '<br/>资金(万元) : ' +
+                [params.data.collapsed]
+            );
+        },
+    },
+    // 主要配置
+    series: [
+        {
+            // 类型
+            type: 'tree',
+            // 数据源
+            data: treeData,
+
+            top: '1%',
+            left: '7%',
+            bottom: '1%',
+            right: '20%',
+
+            symbol: 'none', // symbolSize: 100,
+            // 字体节点样式
+            label: {
+                backgroundColor: 'rgba(241, 191, 14, 1)',
+                borderRadius: [22, 11, 11, 6],
+                padding: [16, 16, 16, 16],
+            },
+            // 线条样式
+            lineStyle: {
+                color: 'rgba(221, 212, 212, 1)',
+                curveness: 0.8,
+                width: '0.5',
+            },
+
+            leaves: {},
+
+            emphasis: {
+                focus: 'descendant',
+            },
+            // 默认展开计几层
+            initialTreeDepth: 1,
+
+            expandAndCollapse: true,
+            animationDuration: 550,
+            animationDurationUpdate: 750,
+        },
+    ],
+}
 
 
 # Getting Started with Create React App
